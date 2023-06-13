@@ -1,3 +1,5 @@
 # LMS
 
-This is a description
+Library Management System: 
+
+User, Staff/Librarian, Database. 
