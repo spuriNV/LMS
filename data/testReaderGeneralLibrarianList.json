@@ -1,0 +1,18 @@
+{
+  "usersJSON": {},
+  "librariansJSON": {
+      "librarians": [
+        {
+          "username": "Nick",
+          "birthdate": "05/09/1996",
+          "telelphone": "098-765-4321"
+        },
+        {
+          "username": "Larry",
+          "birthdate": "04/07/2001",
+          "telelphone": "123-456-7890"
+        }
+      ]
+  },
+  "nodesJSON": {}
+}

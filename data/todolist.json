@@ -1,0 +1,7 @@
+{
+    "name": "My todoList",
+    "list": [{
+        "name": "homework",
+        "completed": "incomplete"
+    }]
+}

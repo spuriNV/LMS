@@ -1,0 +1,54 @@
+{
+  "usersJSON": {
+    "users": [
+      {
+        "username": "Mike",
+        "password": "Mike1234&",
+        "telelphone": "123-456-7890",
+        "fineStatus": 0.0,
+        "Item Loans": {
+          "loanslist": [
+            {
+              "issue_date": "06/01/2007",
+              "return_date": "06/15/2007",
+              "borrowed_item": {
+                "title": "A Promised Land",
+                "copies": 5,
+                "borrowed": 0,
+                "isbn": 251211.1126282523,
+                "history": {},
+                "cost": 26.80,
+                "author/director": "Barak Obama",
+                "pages/time": 1680,
+                "type": "audiobook"
+              },
+              "late_status": false
+            },
+            {
+              "issue_date": "03/01/2008",
+              "return_date": "03/15/2008",
+              "borrowed_item": {
+                "title": "Becoming",
+                "copies": 3,
+                "borrowed": 2,
+                "isbn": 251211.1215132523,
+                "history": {
+                  "Nick": "02/15/2005",
+                  "Mark": "01/13/2004"
+                },
+                "cost": 26.80,
+                "author/director": "Michelle Obama",
+                "pages/time": 768,
+                "type": "book"
+              },
+              "late_status": false
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  "librariansJSON": [],
+  "nodesJSON": []
+}
