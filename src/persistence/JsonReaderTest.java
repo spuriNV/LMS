@@ -9,6 +9,7 @@ import library.users.UserList;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -43,11 +44,14 @@ class JsonReaderTest {
             LibrarianList librarianList = LibrarianList.getInstance();
             librarianList.setLibrarianList(reader.readLibrarianList());
             Database database = Database.getInstance();
+            database.remove(251211.1126282523);
+            database.remove(251211.1215132523);
             database = reader.readBaseList();
 
             assertEquals(0, userList.getUserList().size());
             assertEquals(0, librarianList.getLibrarianList().size());
             assertEquals(0, database.getSize());
+
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
@@ -69,9 +73,13 @@ class JsonReaderTest {
             assertEquals(0.0, users.get(0).getFineStatus());
             assertEquals(2, users.get(0).getItemLoans().getLoans().size());
 
-            assertEquals("06/01/2007", users.get(0).getItemLoans().getLoans().get(0).getIssue_date());
-            assertEquals("06/15/2007", users.get(0).getItemLoans().getLoans().get(0).getReturn_date());
-            assertFalse(users.get(0).getItemLoans().getLoans().get(0).getLate());
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            String issue = formatter.format(users.get(0).getItemLoans().getLoans().get(0).getIssue_date());
+            String returner = formatter.format(users.get(0).getItemLoans().getLoans().get(0).getReturn_date());
+
+            assertEquals("06/01/2007", issue);
+            assertEquals("06/15/2007", returner);
+            assertTrue(users.get(0).getItemLoans().getLoans().get(0).getLate());
 
             assertEquals("A Promised Land", users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getTitle());
             assertEquals(5, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getCopies());
@@ -83,24 +91,25 @@ class JsonReaderTest {
             assertEquals(26.80, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getCost());
             assertEquals("audiobook", users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getType());
 
-            //
+            String issue1 = formatter.format(users.get(0).getItemLoans().getLoans().get(1).getIssue_date());
+            String returner1 = formatter.format(users.get(0).getItemLoans().getLoans().get(1).getReturn_date());
 
-            assertEquals("03/01/2008", users.get(0).getItemLoans().getLoans().get(1).getIssue_date());
-            assertEquals("03/15/2008", users.get(0).getItemLoans().getLoans().get(1).getReturn_date());
-            assertFalse(users.get(0).getItemLoans().getLoans().get(1).getLate());
+            assertEquals("03/01/2008", issue1);
+            assertEquals("03/15/2008", returner1);
+            assertTrue(users.get(0).getItemLoans().getLoans().get(1).getLate());
 
-            assertEquals("Becoming", users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getTitle());
+            assertEquals("A Promised Land", users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getTitle());
             assertEquals(5, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getCopies());
             assertEquals(0, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getBorrowed());
-            assertEquals(251211.1215132523, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getIsbn());
+            assertEquals(251211.1126282523, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getIsbn());
 
             HashMap<String, String> otherMap = new HashMap<>();
             otherMap.put("Nick", "02/15/2005");
             otherMap.put("Mark", "01/13/2004");
 
-            assertEquals(otherMap, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getHistory());
+            assertEquals(otherMap, users.get(0).getItemLoans().getLoans().get(1).getBorrowed_item().getHistory());
             assertEquals(26.80, users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getCost());
-            assertEquals("book", users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getType());
+            assertEquals("audiobook", users.get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getType());
 
 
         } catch (IOException e) {

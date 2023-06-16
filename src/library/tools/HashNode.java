@@ -87,7 +87,8 @@ public class HashNode {
         JSONObject json = new JSONObject();
         json.put("keyBox", key);
         json.put("value", value);
-        json.put("Item", Item);
+        json.put("Item", Item.toJson());
+
         return json;
     }
 }

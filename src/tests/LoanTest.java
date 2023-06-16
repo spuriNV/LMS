@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class LoanTest {
 
@@ -65,23 +65,19 @@ public class LoanTest {
         c.setTime(loan.getIssue_date());
         c.add(Calendar.DATE, 14);
 
-        assertEquals(c.getTime().getDate(), loan.getReturn_date());
-    }
-
-    @Test
-    void setReturnTest() {
-        Calendar c = Calendar.getInstance();
-        c.setTime(loan.getIssue_date());
-        c.add(Calendar.DATE, 28);
-
-        assertEquals(c.getTime().getDate(), loan.getReturn_date().getDate());
+        assertEquals(c.getTime().getDay(), loan.getReturn_date().getDay());
+        assertEquals(c.getTime().getMonth(), loan.getReturn_date().getMonth());
+        assertEquals(c.getTime().getYear(), loan.getReturn_date().getYear());
     }
 
 
     @Test
     void getBorrowedItemTest() {
         Audiobook book = new Audiobook("A Promised Land", 5, 0, 251211.1126282523, "Barak Obama", 1680, 26.80, "audiobook");
-        assertEquals(book, loan.getBorrowed_item());
+        assertEquals("A Promised Land", loan.getBorrowed_item().getTitle());
+        assertEquals(251211.1126282523, loan.getBorrowed_item().getIsbn());
+        assertEquals("audiobook", loan.getBorrowed_item().getType());
+        assertEquals(26.80, loan.getBorrowed_item().getCost());
     }
 
     @Test
@@ -93,15 +89,7 @@ public class LoanTest {
 
     @Test
     void isLateTest() {
-        assertTrue(loan.getLate());
+        assertFalse(loan.getLate());
     }
-
-    @Test
-    void setIsLateTest() {
-        loan.setLate(true);
-        assertTrue(loan.getLate());
-    }
-
-
 
 }

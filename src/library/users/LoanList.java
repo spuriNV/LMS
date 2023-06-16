@@ -30,8 +30,8 @@ public class LoanList {
         loans.remove(loan);
     }
 
-    public int calculateFine() {
-        int sum = 0;
+    public double calculateFine() {
+        double sum = 0;
         for(Loan loan : loans) {
             if(loan.getLate()) {
                 sum += loan.getBorrowed_item().getCost();

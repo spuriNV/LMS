@@ -17,7 +17,7 @@ public class BookTest {
 
     @Test
     void testFirstConstructor() {
-        assertEquals("A Promised Land", book.getTitle());
+        assertEquals("Becoming", book.getTitle());
         assertEquals(5, book.getCopies());
         assertEquals(0, book.getBorrowed());
         assertEquals(251211.1215132523, book.getIsbn());

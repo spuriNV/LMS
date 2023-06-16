@@ -1,5 +1,17 @@
 {
-  "usersJSON": [],
-  "librariansJSON": [],
-  "nodesJSON": []
+  "usersJSON": {
+    "users": [
+
+    ]
+  },
+  "librariansJSON": {
+    "librarians": [
+
+    ]
+  },
+  "nodesJSON": {
+    "nodes": [
+
+    ]
+  }
 }

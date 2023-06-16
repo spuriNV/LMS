@@ -2,6 +2,8 @@ package tests;
 
 import Item.Audiobook;
 import Item.Book;
+import library.staff.Librarian;
+import library.staff.LibrarianList;
 import library.staff.Staff;
 import library.tools.Database;
 import library.tools.HashNode;
@@ -26,6 +28,7 @@ public class StaffTest {
     @BeforeEach
     void RunBefore() {
         staff = new Staff("the_librarian");
+        staff.setBirthdate("04/24/1996");
         base = Database.getInstance();
     }
 
@@ -84,6 +87,8 @@ public class StaffTest {
         staff.addToList(name);
 
         assertEquals(list.size(), staff.getUserList().getUserList().size());
+
+        staff.removeFromList(name);
     }
 
     @Test
@@ -92,22 +97,27 @@ public class StaffTest {
         ArrayList<Loan> otherList = new ArrayList<Loan>();
         LoanList newList = new LoanList(otherList);
         User name = new User("user_name", "password", newList);
+
         list.add(name);
         staff.addToList(name);
-        assertEquals(list.size(), staff.getUserList().getUserList().size());
-    }
 
-   @Test
-   void searchKeyTest() {
-        assertFalse(staff.search(251211.1126282523));
-   }
+        assertEquals(list.size(), staff.getUserList().getUserList().size());
+
+        staff.removeFromList(name);
+    }
 
     @Test
     void searchTrueKeyTest() {
-        Audiobook audiobook = new Audiobook("A Promised Land", 5, 0, 251211.1126282523, "Barak Obama", 1680, 26.80, "audiobook");
         HashNode node = new HashNode(251211.1126282523, "A Promised Land");
+        assertFalse(staff.search(251211.1126282523));
+
         base.add(node);
+        Audiobook book = new Audiobook("A Promised Land", 5, 0, 251211.1126282523, "Barak Obama", 1680, 26.80, "audiobook");
+        node.setItem(book);
         assertTrue(staff.search(251211.1126282523));
+
+        base.remove(node.getKey());
+        assertEquals(0, base.getSize());
     }
 
     @Test
@@ -121,12 +131,21 @@ public class StaffTest {
 
         Date thisDate = new Date();
         Loan loan = new Loan(thisDate, it, false);
+        LibrarianList oneList = LibrarianList.getInstance();
+        Librarian librarian = new Librarian("user_name");
+        oneList.addToArray(librarian);
         name.addItemLoans(loan, thisDate);
 
         list.put(name, thisDate);
         staff.addToList(name);
 
         assertEquals(list.size(), (staff.searchHistory(it)).getUserList().size());
+
+        staff.checkInItem(name, loan);
+        staff.removeFromList(name);
+
+        oneList.removeFromArray(librarian);
+
     }
 
 
@@ -154,7 +173,9 @@ public class StaffTest {
     @Test
     void checkOutWorksTest() {
         Audiobook it = new Audiobook("A Promised Land", 5, 0, 251211.1126282523, "Barak Obama", 1680, 26.80, "audiobook");
-        ArrayList<User> list = new ArrayList<>();
+        HashNode node = new HashNode(251211.1126282523, "A Promised Land");
+        node.setItem(it);
+        base.add(node);
 
         ArrayList<Loan> otherList = new ArrayList<Loan>();
         LoanList newList = new LoanList(otherList);
@@ -163,21 +184,27 @@ public class StaffTest {
         Date thisDate = new Date();
         Loan loan = new Loan(thisDate, it, false);
 
-        list.add(name);
         staff.addToList(name);
 
         staff.checkOutItem(name, loan, thisDate);
 
-        otherList.add(loan);
-
         assertEquals(1, loan.getBorrowed_item().getBorrowed());
-        assertEquals(otherList.size(), name.getItemLoans().getLoans().size());
+        assertEquals(newList.getLoans().size(), name.getItemLoans().getLoans().size());
+
+        staff.checkInItem(name, loan);
+        staff.removeFromList(name);
+        base.remove(node.getKey());
+
+        assertEquals(0, base.getSize());
+
     }
 
     @Test
     void checkInTest() {
         Audiobook it = new Audiobook("A Promised Land", 5, 0, 251211.1126282523, "Barak Obama", 1680, 26.80, "audiobook");
-        ArrayList<User> list = new ArrayList<>();
+        HashNode node = new HashNode(251211.1126282523, "A Promised Land");
+        node.setItem(it);
+        base.add(node);
 
         ArrayList<Loan> otherList = new ArrayList<Loan>();
         LoanList newList = new LoanList(otherList);
@@ -186,20 +213,23 @@ public class StaffTest {
         Date thisDate = new Date();
         Loan loan = new Loan(thisDate, it, false);
 
-        list.add(name);
         staff.addToList(name);
 
         staff.checkOutItem(name, loan, thisDate);
-        otherList.add(loan);
 
         assertEquals(1, loan.getBorrowed_item().getBorrowed());
-        assertEquals(otherList.size(), name.getItemLoans().getLoans().size());
+        assertEquals(newList.getLoans().size(), name.getItemLoans().getLoans().size());
 
+       staff.removeFromList(name);
 
         staff.checkInItem(name, loan);
         otherList.remove(loan);
         assertEquals(0, loan.getBorrowed_item().getBorrowed());
         assertEquals(otherList.size(), name.getItemLoans().getLoans().size());
+
+        base.remove(node.getKey());
+
+        assertEquals(0, base.getSize());
 
     }
 }

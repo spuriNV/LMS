@@ -41,7 +41,7 @@ public class HashNodeTest {
 
     @Test
     void getKeyTest() {
-        assertEquals(251211.112628252, node.getKey());
+        assertEquals(251211.1126282523, node.getKey());
     }
 
     @Test

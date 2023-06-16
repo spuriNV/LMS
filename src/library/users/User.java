@@ -115,8 +115,8 @@ public class User implements Observer, Changers {
     public String toString() {
         return "User{" +
                 ", telephone='" + telephone + '\'' +
-                ", fineStatus=" + fineStatus +
-                ", ItemLoans=" + ItemLoans +
+                ", fineStatus='" + fineStatus + '\'' +
+                ", ItemLoans='" + ItemLoans + '\'' +
                 ", user_name='" + user_name + '\'' +
                 ", password='" + password + '\'' +
                 '}';

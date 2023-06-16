@@ -7,6 +7,8 @@ import library.users.LoanList;
 import library.users.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Calendar;
 import java.util.Date;
 
 import java.util.ArrayList;
@@ -43,9 +45,10 @@ public class LoanListTest {
         Date thisDate = new Date();
         Loan loan = new Loan(thisDate, book, false);
         otherList.add(loan);
+        list.addToList(loan);
 
         assertEquals(otherList.size(), list.getLoans().size());
-        assertEquals(otherList.get(0).getIssue_date().getDate(), list.getLoans().get(0).getIssue_date());
+        assertEquals(otherList.get(0).getIssue_date().getDay(), list.getLoans().get(0).getIssue_date().getDay());
 
     }
 
@@ -55,8 +58,9 @@ public class LoanListTest {
         Date thisDate = new Date();
         Loan loan = new Loan(thisDate,book, false);
         list.addToList(loan);
+        otherList.add(loan);
         assertEquals(otherList.size(), list.getLoans().size());
-        assertEquals(otherList.get(0).getIssue_date().getDate(), list.getLoans().get(0).getIssue_date());
+        assertEquals(otherList.get(0).getIssue_date().getDay(), list.getLoans().get(0).getIssue_date().getDay());
 
     }
 
@@ -66,6 +70,7 @@ public class LoanListTest {
         Date thisDate = new Date();
         Loan loan = new Loan(thisDate, book, false);
         list.addToList(loan);
+        otherList.add(loan);
         assertEquals(otherList.size(), list.getLoans().size());
 
         otherList.remove(loan);
@@ -77,19 +82,20 @@ public class LoanListTest {
 
     @Test
     void calculateFineTest() {
-        int sum = 0;
-        for(Loan loan : list.getLoans()) {
-            if(loan.getLate()) {
-                sum += loan.getBorrowed_item().getCost();
-            }
-        }
-
         assertEquals(0, list.calculateFine());
 
         Date thisDate = new Date();
-        Loan loan = new Loan(thisDate, book, false);
-        list.addToList(loan);
+        Calendar c = Calendar.getInstance();
+        c.setTime(thisDate);
 
+        Loan loan = new Loan(thisDate, book, false);
+
+        c.add(Calendar.DATE, -16);
+        Date newDate = c.getTime();
+
+        loan.setReturn_date(newDate);
+
+        list.addToList(loan);
         assertEquals(26.80, list.calculateFine());
 
 

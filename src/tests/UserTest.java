@@ -86,12 +86,11 @@ public class UserTest {
     @Test
     void toStringTest() {
         assertEquals("User{" +
-                "address='" + "" + '\'' +
-                ", telephone='" + "" + '\'' +
-                ", fineStatus=" + 0 + '\'' +
-                ", ItemLoans=" + list.toString() + '\'' +
-                ", user_name='" + "user_name" + '\'' +
-                ", gender=" + 'f' +
+                ", telephone='" + name.getTelephone() + '\'' +
+                ", fineStatus='" + name.getFineStatus() + '\'' +
+                ", ItemLoans='" + list.toString() + '\'' +
+                ", user_name='" + name.getUser_name() + '\'' +
+                ", password='" + name.getPassword() + '\'' +
                 '}', name.toString());
     }
 }

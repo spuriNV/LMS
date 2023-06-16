@@ -87,7 +87,13 @@ public class Staff implements Subject {
     // REQUIRES: n/a
     // EFFECTS: returns item field
     public boolean search(double key) {
-        return (this.hashTable.search(key) != null) && (this.hashTable.search(key).getItem().getCopies() >= 1);
+       if(hashTable.search(key) != null) {
+           if(hashTable.search(key).getItem().getCopies() >= 1) {
+               return true;
+           }
+           return false;
+       }
+       return false;
     }
 
     // REQUIRES: n/a

@@ -4,10 +4,10 @@
       {
         "username": "Mike",
         "password": "Mike1234&",
-        "telelphone": "123-456-7890",
+        "telephone": "123-456-7890",
         "fineStatus": 0.0,
         "Item Loans": {
-          "loanslist": [
+          "loansList": [
             {
               "issue_date": "06/01/2007",
               "return_date": "06/15/2007",
@@ -22,7 +22,7 @@
                 "pages/time": 1680,
                 "type": "audiobook"
               },
-              "late_status": false
+              "late_status": true
             },
             {
               "issue_date": "03/01/2008",
@@ -41,7 +41,7 @@
                 "pages/time": 768,
                 "type": "book"
               },
-              "late_status": false
+              "late_status": true
             }
           ]
         }

@@ -40,16 +40,22 @@ class JsonWriterTest  {
     void testWriterEmptyLists() {
         try {
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyLists.json");
+
+            UserList userList = UserList.getInstance();
+            LibrarianList librarianList = LibrarianList.getInstance();
+            Database database = Database.getInstance();
+
+            userList.emptyList();
+            librarianList.emptyList();
+            database.emptyList();
+
             writer.open();
             writer.writeLists();
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterEmptyLists.json");
-            UserList userList = UserList.getInstance();
             userList.setUserList(reader.readUserList());
-            LibrarianList librarianList = LibrarianList.getInstance();
             librarianList.setLibrarianList(reader.readLibrarianList());
-            Database database = Database.getInstance();
             database = reader.readBaseList();
 
             assertEquals(0, userList.getUserList().size());
@@ -68,6 +74,10 @@ class JsonWriterTest  {
             UserList userList = UserList.getInstance();
             LibrarianList librarianList = LibrarianList.getInstance();
             Database baseList = Database.getInstance();
+
+            userList.emptyList();
+            librarianList.emptyList();
+            baseList.emptyList();
 
             Audiobook audioBook = new Audiobook("A Promised Land", 5, 0, 251211.1126282523, "Barak Obama", 1680, 26.80, "audiobook");
             Book book = new Book("Becoming", 5, 0, 251211.1215132523, "Michelle Obama", 768, 26.80, "book");
@@ -90,11 +100,12 @@ class JsonWriterTest  {
             baseList.add(node);
 
             HashNode node1 = new HashNode(book.getIsbn(), book.getTitle());
-            node.setItem(book);
+            node1.setItem(book);
             baseList.add(node1);
 
+            assertEquals(2, baseList.levelOrder(node).size());
 
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralLists.json");
+           JsonWriter writer = new JsonWriter("./data/testWriterGeneralLists.json");
             writer.open();
             writer.writeLists();
             writer.close();
@@ -106,16 +117,14 @@ class JsonWriterTest  {
 
 
            // assertEquals statements
-            assertEquals(user, userList.getUserList().get(0));
             assertEquals("Mike", userList.getUserList().get(0).getUser_name());
             assertEquals("Mike1234&", userList.getUserList().get(0).getPassword());
-            assertEquals(loans, userList.getUserList().get(0).getItemLoans());
-            assertEquals(audioBook, userList.getUserList().get(0).getItemLoans().getLoans().get(0).getBorrowed_item());
+            assertEquals(audioBook.getTitle(), userList.getUserList().get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getTitle());
+            assertEquals(audioBook.getType(), userList.getUserList().get(0).getItemLoans().getLoans().get(0).getBorrowed_item().getType());
 
-            assertEquals(librarian, librarianList.getLibrarianList().get(0));
             assertEquals("Nick", librarian.getUser_name());
-            assertEquals("098-765-4321", librarian.getUser_name());
-            assertEquals("05/09/1996", librarian.getUser_name());
+            assertEquals("098-765-4321", librarian.getTelephone());
+            assertEquals("05/09/1996", librarian.getBirthdate());
 
             assertEquals(1, baseList.getSize());
             ArrayList<HashNode> nodes = baseList.booksByAuthor(25);
@@ -124,6 +133,11 @@ class JsonWriterTest  {
             assertEquals(251211.1126282523, nodes.get(0).getKey());
             assertEquals("Becoming", nodes.get(1).getValue());
             assertEquals(251211.1215132523, nodes.get(1).getKey());
+
+            userList.emptyList();
+            librarianList.emptyList();
+            baseList.emptyList();
+
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");

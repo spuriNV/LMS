@@ -37,6 +37,12 @@ public class LibrarianList {
         this.librarianList = librarianList;
     }
 
+    public void emptyList() {
+        for(int i = 0; i < librarianList.size(); i++) {
+            librarianList.remove(i);
+        }
+    }
+
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("librarians", listToJson());

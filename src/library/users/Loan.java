@@ -52,13 +52,10 @@ public class Loan {
     public boolean getLate() {
         Date thisDate = new Date();
         if(thisDate.after(this.return_date) ) {
+            isLate = false;
             return true;
         }
         return false;
-    }
-
-    public void setLate(boolean late) {
-        isLate = late;
     }
 
     @Override

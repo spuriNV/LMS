@@ -80,7 +80,7 @@ public class AudiobookTest {
 
     @Test
     void getCostTest() {
-        assertEquals(26.80, book.getTime());
+        assertEquals(26.80, book.getCost());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class AudiobookTest {
 
     @Test
     void setTypeTest() {
-        book.setAuthor("LeBron James");
+        book.setType("LeBron James");
         assertEquals("LeBron James", book.getType());
     }
 

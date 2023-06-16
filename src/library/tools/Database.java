@@ -49,9 +49,20 @@ public class Database {
             size++;
         } else {
             HashNode head = buckets[bucketIndex];
-            if(searchTree(head, head.getKey()) != null) {
-                HashNode inPlace = searchTree(head, head.getKey());
-                inPlace.setValue(node.getValue());
+            if(searchTree(head, node.getKey()) != null) {
+                HashNode inPlace = searchTree(head, node.getKey());
+
+                int firstDigit1 = 0;
+                int temp1 = (int) Math.floor(inPlace.getKey());
+                firstDigit1 = temp/10000;
+                int bucketIndex1 = getBucketIndex(firstDigit1);
+                if(buckets[bucketIndex1] == inPlace) {
+                    buckets[bucketIndex1].setValue(node.getValue());
+                }
+                else {
+                    inPlace.setValue(node.getValue());
+                }
+
             } else {
                 BSTInsert(head, node);
             }
@@ -115,23 +126,24 @@ public class Database {
 
     public ArrayList<HashNode> levelOrder(HashNode currPtr) {
         ArrayList<HashNode> nodes = new ArrayList<>();
+
         Queue<HashNode> queue = new LinkedList<HashNode>();
         queue.add(currPtr);
 
         while(!queue.isEmpty()) {
             HashNode node = queue.poll();
             nodes.add(node);
+            if(node != null) {
+                /*Enqueue left child */
+                if (node.getLeft() != null) {
+                    queue.add(node.getLeft());
+                }
 
-            /*Enqueue left child */
-            if (node.getLeft() != null) {
-                queue.add(node.getLeft());
+                /*Enqueue right child */
+                if (node.getRight() != null) {
+                    queue.add(node.getRight());
+                }
             }
-
-            /*Enqueue right child */
-            if (node.getRight() != null) {
-                queue.add(node.getRight());
-            }
-
         }
         return nodes;
     }
@@ -165,8 +177,31 @@ public class Database {
         HashNode right = node.getRight();
         HashNode rightLeft = right.getLeft();
 
-        right.setLeft(node);
-        node.setRight(rightLeft);
+        int firstDigit = 0;
+        int temp = (int) Math.floor(right.getKey());
+        firstDigit = temp/10000;
+        int bucketIndex = getBucketIndex(firstDigit);
+
+        if(buckets[bucketIndex] == right) {
+            buckets[bucketIndex].setLeft(node);
+        }
+
+        else {
+            right.setLeft(node);
+        }
+
+        int firstDigit1 = 0;
+        int temp1 = (int) Math.floor(node.getKey());
+        firstDigit1 = temp/10000;
+        int bucketIndex1 = getBucketIndex(firstDigit1);
+
+        if(buckets[bucketIndex] == node) {
+            buckets[bucketIndex1].setRight(rightLeft);
+        }
+
+        else{
+            node.setRight(rightLeft);
+        }
 
         updateHeight(node);
         updateHeight(right);
@@ -179,8 +214,31 @@ public class Database {
         HashNode left = node.getLeft();
         HashNode leftRight = left.getRight();
 
-        left.setRight(node);
-        node.setLeft(leftRight);
+        int firstDigit = 0;
+        int temp = (int) Math.floor(left.getKey());
+        firstDigit = temp/10000;
+        int bucketIndex = getBucketIndex(firstDigit);
+
+        if(buckets[bucketIndex] == left) {
+            buckets[bucketIndex].setRight(node);
+        }
+
+        else {
+            left.setRight(node);
+        }
+
+        int firstDigit1 = 0;
+        int temp1 = (int) Math.floor(node.getKey());
+        firstDigit1 = temp/10000;
+        int bucketIndex1 = getBucketIndex(firstDigit1);
+
+        if(buckets[bucketIndex] == node) {
+            buckets[bucketIndex1].setLeft(leftRight);
+        }
+
+        else{
+            node.setLeft(leftRight);
+        }
 
         updateHeight(node);
         updateHeight(left);
@@ -191,6 +249,8 @@ public class Database {
     // balanceTree balances the tree using rotations after an insertion or deletion
     private HashNode balanceTree(HashNode node)
     {
+        if(node == null) {return null;}
+
         updateHeight(node);
         int balance = Balance(node);
 
@@ -198,7 +258,19 @@ public class Database {
         {
             if (Balance(node.getRight()) < 0) // rightLeft rotation
             {
-                node.setRight(rotateRight(node.getRight()));
+                int firstDigit = 0;
+                int temp = (int) Math.floor(node.getKey());
+                firstDigit = temp/10000;
+                int bucketIndex = getBucketIndex(firstDigit);
+
+                if(buckets[bucketIndex] == node) {
+                    buckets[bucketIndex].setRight(rotateRight(node.getRight()));
+                }
+
+                else {
+                    node.setRight(rotateRight(node.getRight()));
+                }
+
                 return rotateLeft(node);
             }
 
@@ -209,7 +281,19 @@ public class Database {
         {
             if (Balance(node.getLeft()) > 0)//LR
             {
-                node.setLeft(rotateLeft(node.getLeft()));
+
+                int firstDigit = 0;
+                int temp = (int) Math.floor(node.getKey());
+                firstDigit = temp/10000;
+                int bucketIndex = getBucketIndex(firstDigit);
+
+                if(buckets[bucketIndex] == node) {
+                    buckets[bucketIndex].setLeft(rotateLeft(node.getLeft()));
+                }
+
+                else {
+                    node.setLeft(rotateLeft(node.getLeft()));
+                }
                 return rotateRight(node);
             }
             else//LL
@@ -223,9 +307,36 @@ public class Database {
         // Performs normal BST insertion
         if (node == null) {return other;}
 
-        else if (other.getKey() < node.getKey()) {  node.setLeft(BSTInsert(node.getLeft(), other));}
+        else if (other.getKey() < node.getKey()) {
 
-        else {node.setRight(BSTInsert(node.getRight(), other));}
+            int firstDigit = 0;
+            int temp = (int) Math.floor(node.getKey());
+            firstDigit = temp/10000;
+            int bucketIndex = getBucketIndex(firstDigit);
+
+            if(buckets[bucketIndex] == node) {
+                buckets[bucketIndex].setLeft(BSTInsert(node.getLeft(), other));
+            }
+
+            else {
+                node.setLeft(BSTInsert(node.getLeft(), other));
+            }
+        }
+
+        else {
+            int firstDigit = 0;
+            int temp = (int) Math.floor(node.getKey());
+            firstDigit = temp/10000;
+            int bucketIndex = getBucketIndex(firstDigit);
+
+            if(buckets[bucketIndex] == node) {
+                buckets[bucketIndex].setRight(BSTInsert(node.getRight(), other));
+            }
+
+            else {
+                node.setRight(BSTInsert(node.getRight(), other));
+            }
+        }
 
         // Balances the tree after BST Insertion
         return balanceTree(node);
@@ -236,6 +347,14 @@ public class Database {
     {
         if (node.getLeft() != null)
             return NextLargest(node.getLeft());
+
+        else {return node;}
+    }
+
+    private HashNode NextSmallest(HashNode node)
+    {
+        if (node.getRight() != null)
+            return NextSmallest(node.getRight());
 
         else {return node;}
     }
@@ -254,29 +373,88 @@ public class Database {
 
         else
         {
+            if (node.getRight() == null && node.getLeft() == null) {
+                HashNode temp = node;
+                node = null;
 
-            if (node.getRight() == null) {
-                node = node.getLeft();
+                int firstDigit = 0;
+                int tempNum = (int) Math.floor(temp.getKey());
+                firstDigit = tempNum/10000;
+                int bucketIndex = getBucketIndex(firstDigit);
+
+                HashNode head = null;
+                if(levelOrder(buckets[bucketIndex]).size() == 1) {
+                    buckets[bucketIndex] = null;
+                    size--;
+                }
+
+                else {
+                    return balanceTree(head);
+                }
             }
 
-            else if (node.getLeft() == null)
-                node = node.getRight();
+            else if (node.getLeft() == null && node.getRight() != null) {
 
-            else
-            {
+                int firstDigit = 0;
+                int tempNum = (int) Math.floor(node.getKey());
+                firstDigit = tempNum/10000;
+                int bucketIndex = getBucketIndex(firstDigit);
+
                 HashNode temp = NextLargest(node.getRight());
                 node.setKey(temp.getKey());
                 node.setValue(temp.getValue());
-                node.setRight(Remove(node.getRight(), temp.getKey()));
+                node.setItem(temp.getItem());
+
+                if(buckets[bucketIndex] == node) {
+                    buckets[bucketIndex].setRight(Remove(node.getRight(), node.getKey()));
+                }
+
+                else {
+                    node.setRight(Remove(node.getRight(), node.getKey()));
+                }
+            }
+            else if(node.getRight() == null && node.getLeft() != null)
+            {
+                int firstDigit = 0;
+                int tempNum = (int) Math.floor(node.getKey());
+                firstDigit = tempNum/10000;
+                int bucketIndex = getBucketIndex(firstDigit);
+
+                HashNode temp =  NextSmallest(node.getLeft());
+                node.setKey(temp.getKey());
+                node.setValue(temp.getValue());
+                node.setItem(temp.getItem());
+
+                if(buckets[bucketIndex] == node) {
+                    buckets[bucketIndex].setLeft(Remove(node.getLeft(), temp.getKey()));
+                }
+
+                else {
+                    node.setLeft(Remove(node.getLeft(), temp.getKey()));
+                }
+            }
+            else {
+                int firstDigit = 0;
+                int tempNum = (int) Math.floor(node.getKey());
+                firstDigit = tempNum/10000;
+                int bucketIndex = getBucketIndex(firstDigit);
+
+                HashNode temp =  NextSmallest(node.getLeft());
+                node.setKey(temp.getKey());
+                node.setValue(temp.getValue());
+                node.setItem(temp.getItem());
+
+                if(buckets[bucketIndex] == node) {
+                    buckets[bucketIndex].setLeft(Remove(node.getLeft(), temp.getKey()));
+                }
+
+                else {
+                    node.setLeft(Remove(node.getLeft(), temp.getKey()));
+                }
             }
         }
-
-        if (node == null)
-            return node;
-
-        else
             // Balances the tree after deletion
-            return balanceTree(node);
+        return balanceTree(node);
     }
 
 
@@ -292,6 +470,16 @@ public class Database {
                 '}';
     }
 
+    public void emptyList() {
+        for(HashNode node : buckets) {
+            for(HashNode node1 : levelOrder(node)) {
+                if(node1 != null) {
+                    remove(node1.getKey());
+                }
+            }
+        }
+    }
+
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("nodes", listToJson());
@@ -304,7 +492,9 @@ public class Database {
         JSONArray jsonArray = new JSONArray();
      for(HashNode node : buckets) {
          for(HashNode node1 : levelOrder(node)) {
-             jsonArray.put(node1.toJson());
+             if(node1 != null) {
+                 jsonArray.put(node1.toJson());
+             }
          }
      }
         return jsonArray;

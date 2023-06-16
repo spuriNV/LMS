@@ -39,7 +39,7 @@ public class Librarian extends Staff implements Changers {
     public String toString() {
         return "Librarian{" +
                 ", telephone='" + telephone + '\'' +
-                ", user_name='" + user_name + '\'' +
+                ", user_name='" + super.getUser_name() + '\'' +
                 ", birthdate='" + birthdate + '\'' +
                 '}';
     }
@@ -57,9 +57,9 @@ public class Librarian extends Staff implements Changers {
 
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("username", user_name);
-        json.put("birthdate", birthdate);
-        json.put("telephone", telephone);
+        json.put("username", super.getUser_name());
+        json.put("birthdate", super.getBirthdate());
+        json.put("telephone", super.getTelephone());
         return json;
     }
 }

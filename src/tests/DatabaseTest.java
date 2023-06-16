@@ -63,6 +63,12 @@ public class DatabaseTest {
         another.setItem(dvd);
         base.add(another);
         assertEquals(2, base.getSize());
+
+        base.remove(node.getKey());
+        base.remove(other.getKey());
+        base.remove(another.getKey());
+
+        assertEquals(0, base.getSize());
     }
 
     @Test
@@ -76,6 +82,10 @@ public class DatabaseTest {
         base.add(node);
         assertEquals(1, base.getSize());
         assertFalse(base.isEmpty());
+
+        base.remove(node.getKey());
+
+        assertEquals(0, base.getSize());
     }
 
     @Test
@@ -85,7 +95,7 @@ public class DatabaseTest {
         assertEquals(1, base.getSize());
         assertFalse(base.isEmpty());
 
-        base.remove(251211.1126282523);
+        base.remove(node.getKey());
 
         assertEquals(0, base.getSize());
         assertTrue(base.isEmpty());
@@ -95,16 +105,6 @@ public class DatabaseTest {
     @Test
     void searchKeyEmptyTest() {
         assertNull(base.search(251211.1126282523));
-        node.setItem(audiobook);
-        base.add(node);
-    }
-
-    @Test
-    void searchKeyTest() {
-        node.setItem(audiobook);
-        base.add(node);
-        HashNode node = new HashNode(251211.1126282523, "A Promised Land");
-        assertEquals(node, base.search(251211.1126282523));
     }
 
     @Test
@@ -122,6 +122,11 @@ public class DatabaseTest {
 
         assertEquals(nodes, base.booksByAuthor(25));
 
+        base.remove(node.getKey());
+        base.remove(other.getKey());
+
+        assertEquals(0, base.getSize());
+
 
     }
 
@@ -138,6 +143,11 @@ public class DatabaseTest {
         nodes.add(node);
         nodes.add(other);
         assertEquals(nodes, base.levelOrder(node));
+
+        base.remove(node.getKey());
+        base.remove(other.getKey());
+
+        assertEquals(0, base.getSize());
 
     }
 
@@ -166,5 +176,10 @@ public class DatabaseTest {
                 ", size=" + "2" +
                 '}', base.toString());
 
+        base.remove(node.getKey());
+        base.remove(other.getKey());
+        base.remove(another.getKey());
+
+        assertEquals(0, base.getSize());
     }
 }

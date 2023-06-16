@@ -59,8 +59,12 @@ public class UserListTest {
         User other = new User("not_user_name", "password", list);
 
         userList.addToArray(other);
+        useNewList.add(other);
+
         assertEquals(useNewList, userList.getUserList());
         assertEquals(useNewList.size(), userList.getUserList().size());
+
+        userList.removeFromArray(other);
 
     }
 }

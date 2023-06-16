@@ -49,6 +49,7 @@ public class UserInterface {
         jsonReader = new JsonReader(JSON_STORE);
         this.userList = UserList.getInstance();
         this.librarianList = librarianList.getInstance();
+
         logIn();
     }
 
@@ -315,7 +316,8 @@ public class UserInterface {
         System.out.println(" - You must have at least one special character");
         System.out.println(" - You must have at least two numbers");
         System.out.println(" - You must have at least one Uppercase character.");
-        System.out.println(" - You must have at least six characters, in total.");
+        System.out.println(" - You must have at least one lowercase character.");
+        System.out.println(" - You must have at least eight characters, in total.");
         System.out.println("\n Type your password below: ");
 
 

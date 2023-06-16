@@ -17,7 +17,7 @@ public class EbookTest {
 
     @Test
     void getTitleTest() {
-        assertEquals("Becoming", book.getTitle());
+        assertEquals("Matilda", book.getTitle());
     }
 
     @Test

@@ -40,6 +40,13 @@ public class UserList implements Changers {
         this.userList = userList;
     }
 
+    public void emptyList() {
+        for(int i = 0; i < userList.size(); i++) {
+            userList.remove(i);
+        }
+    }
+
+
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("users", listToJson());
