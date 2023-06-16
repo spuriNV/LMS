@@ -10,7 +10,7 @@ public class Main {
         frame.setVisible(true);
         frame.setSize(420, 420);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setTitle("Library Management System");
 
 
