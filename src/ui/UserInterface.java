@@ -219,7 +219,6 @@ public class UserInterface {
     private void displayMenu() {
         System.out.println("\n LIBRARY USER, select from:");
         System.out.println("\td -> Display current information");
-        System.out.println("\ta -> Set Address");
         System.out.println("\tt -> Set Telephone number");
         System.out.println("\tu-> Set Username");
         System.out.println("\tp -> Set Password");
@@ -247,7 +246,7 @@ public class UserInterface {
         } else if (command.equals("c")) {
             checkOutTask();
         } else if (command.equals("r")) {
-            checkOutTask();
+            checkInTask();
         } else if (command.equals("z")) {
             checkDueDateTask();
         } else if (command.equals("f")) {
@@ -354,6 +353,20 @@ public class UserInterface {
         Item.addToHistory(user, thisDate);
     }
 
+    private void checkInTask() {
+        System.out.println("Enter the ISBN of the book you want to return: ");
+        // specify how to input isbn
+        double bookISBN = input.nextDouble();
+
+        Loan thisLoan;
+        for(Loan loan : user.getItemLoans().getLoans()) {
+            if(bookISBN == loan.getBorrowed_item().getIsbn()) {
+                thisLoan = loan;
+                user.returnItemLoans(thisLoan);
+            }
+        }
+    }
+
     private void checkDueDateTask() {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         for(Loan loan : user.getItemLoans().getLoans()) {
@@ -422,8 +435,7 @@ public class UserInterface {
 
     private void displayLibMenu() {
         System.out.println("\n LIBRARIAN, select from:");
-        System.out.println("\ta -> Display current information");
-        System.out.println("\tb -> Set Address");
+        System.out.println("\tb -> Display current information");
         System.out.println("\tc -> Set Telephone number");
         System.out.println("\td-> Set Username");
         System.out.println("\te -> Set Birthdate");
@@ -435,7 +447,6 @@ public class UserInterface {
         System.out.println("\tk -> Increase Copies of item");
         System.out.println("\tl -> Decrease Copies of item");
         System.out.println("\tm -> Record Fine");
-        System.out.println("\tn -> Refresh Status");
         System.out.println("\to -> Add to Database");
         System.out.println("\tp -> Remove from Database");
         System.out.println("\ts -> Save information");
